@@ -2,8 +2,11 @@
   "name": "movie_reservation_system",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "app.ts",
   "scripts": {
+    "start": "node ./dist/app.js",
+    "dev": "nodemon app.ts",
+    "build": "tsc",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
