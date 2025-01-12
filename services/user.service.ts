@@ -21,3 +21,15 @@ export const getAllUsers = async () => {
     console.error("Error getting all users: ", error.message)
   }
 }
+
+export const getUserByEmail = async (email: string) => {
+  try {
+    return await prisma.user.findUnique({
+      where: {
+        email
+      }
+    })
+  } catch (error: any) {
+    console.error("Error getting user by email: ", error.message)
+  }
+}
