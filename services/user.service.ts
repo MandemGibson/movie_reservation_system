@@ -45,3 +45,20 @@ export const getUserById = async (id: string) => {
     console.error("Error getting user by id: ", error.message)
   }
 }
+
+export const updateUser = async (id: string, payload: {
+  fullname?: string;
+  email?: string;
+  password?: string;
+}) => {
+  try {
+    return await prisma.user.update({
+      where: {
+        id
+      },
+      data: payload
+    })
+  } catch (error: any) {
+    console.error("Error updating user: ", error.message)
+  }
+}
