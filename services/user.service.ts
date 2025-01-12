@@ -62,3 +62,15 @@ export const updateUser = async (id: string, payload: {
     console.error("Error updating user: ", error.message)
   }
 }
+
+export const deleteUser = async (id: string) => {
+  try {
+    return await prisma.user.delete({
+      where: {
+        id
+      }
+    })
+  } catch (error: any) {
+    console.error("Error deleting user: ", error.message)
+  }
+}
