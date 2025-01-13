@@ -9,3 +9,11 @@ export const login = async (email: string) => {
         console.error("Error in auth.service, loginUser: ", error.message);
     }
 };
+
+export const signUp = async (payload: User) => {
+    try {
+        return await addUser(payload);
+    } catch (error: any) {
+        console.error("Error in auth.service, signUp: ", error.message);
+    }
+}
