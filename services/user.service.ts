@@ -1,10 +1,7 @@
+import { User } from "@prisma/client";
 import { prisma } from "./prisma.service";
 
-export const addUser = async (payload: {
-  fullname: string;
-  email: string;
-  password: string;
-}) => {
+export const addUser = async (payload: User) => {
   try {
     return await prisma.user.create({
       data: payload,
