@@ -33,7 +33,7 @@ export const signupHandler = async (req: Request, res: Response): Promise<any> =
     if (!fullname || !email || !password)
       return res
         .status(400)
-        .json({ message: "Email and password are required" });
+        .json({ message: "All fields are required" });
 
     const existingUser = await getUserByEmail(email)
 
