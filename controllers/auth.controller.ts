@@ -44,7 +44,8 @@ export const signupHandler = async (req: Request, res: Response): Promise<any> =
     const user = await signUp({ ...req.body, password: hashedPassword });
 
     res.status(201).json({ message: "Sign up successful", data: user });
-  } catch (error) {
-
+  } catch (error: any) {
+    console.error("Error logging in: ", error.message);
+    return res.status(500).json({ message: "Internal server error" });
   }
 }
