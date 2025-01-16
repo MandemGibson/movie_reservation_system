@@ -49,3 +49,15 @@ export const signupHandler = async (req: Request, res: Response): Promise<any> =
     return res.status(500).json({ message: "Internal server error" });
   }
 }
+
+export const logoutHandler = async (
+  req: Request,
+  res: Response
+): Promise<any> => {
+  try {
+    res.cookie("jwt", "", { maxAge: 0 });
+    res.status(200).json({ message: "Logout successful" });
+  } catch (error: any) {
+    return res.status(500).json({ message: error.message });
+  }
+};
