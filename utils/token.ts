@@ -26,4 +26,10 @@ export const generateToken = async (
   }
 };
 
-
+export const verifyToken = async (token: string) => {
+  try {
+    return jwt.verify(token, process.env.JWT_SECRET_KEY as string);
+  } catch (error: any) {
+    console.error("Error verifying token: ", error.message);
+  }
+};
