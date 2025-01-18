@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import { getUserByEmail } from "../services/user.service";
 import { login, signUp } from "../services/auth.service";
 import { hashPassword, validatePassword } from "../utils/password";
+import { generateToken } from "../utils/token";
 
 export const loginHandler = async (req: Request, res: Response): Promise<any> => {
   const { email, password } = req.body;
@@ -18,7 +19,7 @@ export const loginHandler = async (req: Request, res: Response): Promise<any> =>
     if (!isPasswordCorrect)
       return res.status(401).json({ message: "Invalid password" });
 
-    // await generateToken(user.id, res, false);
+    await generateToken(user.id, res, false);
 
     res.status(200).json({ message: "Login successful", data: user });
   } catch (error: any) {
