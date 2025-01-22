@@ -37,3 +37,16 @@ export const findOtp = async (otp: number) => {
       console.error("Error finding otp: ", error.message);
     }
   };
+
+  export const invalidateOtp = async (id: string) => {
+    try {
+      await prisma.otp.update({
+        where: { id },
+        data: {
+          valid: false,
+        },
+      });
+    } catch (error: any) {
+      console.error("Error invalidating otp: ", error.message);
+    }
+  };
