@@ -3,6 +3,7 @@ import { getUserByEmail } from "../services/user.service";
 import { login, signUp } from "../services/auth.service";
 import { hashPassword, validatePassword } from "../utils/password";
 import { generateToken } from "../utils/token";
+import { createOtp } from "../services/otp.service";
 
 export const loginHandler = async (req: Request, res: Response): Promise<any> => {
   const { email, password } = req.body;
@@ -77,7 +78,7 @@ export const forgotPasswordHandler = async (
         .status(404)
         .json({ message: "No user associated with provided email" });
 
-    // const otp = await createOtp(user.id);
+    const otp = await createOtp(user.id);
     res.status(200).json({ message: `OTP sent to ${email}`});
   } catch (error: any) {
     return res.status(500).json({ message: error.message });
