@@ -22,3 +22,18 @@ export const createOtp = async (userId: string) => {
     console.error("Error creating OTP: ", error.message);
   }
 };
+
+export const findOtp = async (otp: number) => {
+    try {
+      const hashedOtp = crypto
+        .createHash("sha256")
+        .update(otp.toString())
+        .digest("hex");
+  
+      return await prisma.otp.findFirst({
+        where: { otp: hashedOtp, valid: true, expiresIn: { gt: new Date() } },
+      });
+    } catch (error: any) {
+      console.error("Error finding otp: ", error.message);
+    }
+  };
