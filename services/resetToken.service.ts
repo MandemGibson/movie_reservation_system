@@ -26,3 +26,18 @@ export const findResetToken = async (filter: any) => {
     console.error("Error finding reset token: ", error.message);
   }
 };
+
+export const invalidateResetToken = async (id: string) => {
+  try {
+    await prisma.resetToken.update({
+      where: {
+        id,
+      },
+      data: {
+        valid: false,
+      },
+    });
+  } catch (error) {
+    console.error(error);
+  }
+};
