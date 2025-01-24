@@ -3,7 +3,8 @@ import { getUserByEmail } from "../services/user.service";
 import { login, signUp } from "../services/auth.service";
 import { hashPassword, validatePassword } from "../utils/password";
 import { generateToken } from "../utils/token";
-import { createOtp } from "../services/otp.service";
+import { createOtp, findOtp, invalidateOtp } from "../services/otp.service";
+import { createResetToken, findResetToken } from "../services/resetToken.service";
 
 export const loginHandler = async (req: Request, res: Response): Promise<any> => {
   const { email, password } = req.body;
@@ -80,6 +81,30 @@ export const forgotPasswordHandler = async (
 
     const otp = await createOtp(user.id);
     res.status(200).json({ message: `OTP sent to ${email}`});
+  } catch (error: any) {
+    return res.status(500).json({ message: error.message });
+  }
+};
+
+export const verifyOtpHandler = async (
+  req: Request,
+  res: Response
+): Promise<any> => {
+  try {
+    const { otp } = req.body;
+    if (!otp) return res.status(400).json({ message: "Provide OTP" });
+
+    const foundOtp = await findOtp(otp);
+    if (!foundOtp) return res.status(404).json({ message: "Invalid OTP" });
+
+    let resetToken = await findResetToken({ userId: foundOtp.userId });
+    if (!resetToken) resetToken = await createResetToken(foundOtp.userId);
+
+    await invalidateOtp(foundOtp.id);
+
+    res
+      .status(200)
+      .json({ message: "OTP verified successfully", data: resetToken?.token });
   } catch (error: any) {
     return res.status(500).json({ message: error.message });
   }
